@@ -29,8 +29,8 @@ public class EmployeeController {
 //    }
 
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getEmployees() {
-        return new ResponseEntity<List<Employee>>(employeeService.getEmployees(), HttpStatus.OK);
+    public ResponseEntity<List<Employee>> getEmployees(@RequestParam int pageNumber, @RequestParam int pageSize) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployees(pageNumber, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("/employee/{id}")
@@ -54,5 +54,30 @@ public class EmployeeController {
     public ResponseEntity<HttpStatus> deleteEmployee(@RequestParam("id") Long id) {
         employeeService.deleteEmployee(id);
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/employees/filterByName")
+    public ResponseEntity<List<Employee>> getEmployeesByName(@RequestParam String name) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByName(name), HttpStatus.OK);
+    }
+
+    @GetMapping("/employees/filterByNameAndLocation")
+    public ResponseEntity<List<Employee>> getEmployeesByNameAndLocation(@RequestParam String name, @RequestParam String location) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByNameAndLocation(name, location), HttpStatus.OK);
+    }
+
+    @GetMapping("/employees/filterByKeyword")
+    public ResponseEntity<List<Employee>> getEmployeesByKeyword(@RequestParam String keyword) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByKeyWord(keyword), HttpStatus.OK);
+    }
+
+    @GetMapping("/employees/{name}/{location}")
+    public ResponseEntity<List<Employee>> getEmployeesByNameOrLocation(@PathVariable String name, @PathVariable String location) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployeeByNameOrLocation(name, location), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/employees/delete/{name}")
+    public ResponseEntity<String> deleteEmployeeByName(@PathVariable String name) {
+        return new ResponseEntity<String>(employeeService.deleteByEmployeeName(name) + " of records deleted.", HttpStatus.OK);
     }
 }

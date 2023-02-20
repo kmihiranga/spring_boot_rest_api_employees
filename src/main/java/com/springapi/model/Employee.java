@@ -38,8 +38,8 @@ public class Employee {
     private String email;
 
 //    @Column(name = "department")
-    @NotNull(message = "Department should not be null")
-    private String department;
+//    @NotNull(message = "Department should not be null")
+//    private String department;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -48,4 +48,8 @@ public class Employee {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 }

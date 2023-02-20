@@ -4,6 +4,8 @@ import com.springapi.model.Employee;
 import com.springapi.service.EmployeeServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,30 +29,30 @@ public class EmployeeController {
 //    }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees() {
-        return employeeService.getEmployees();
+    public ResponseEntity<List<Employee>> getEmployees() {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployees(), HttpStatus.OK);
     }
 
     @GetMapping("/employee/{id}")
-    public Employee getEmployee(@PathVariable("id") Long id) {
-        return employeeService.getEmployee(id);
+    public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
+        return new ResponseEntity<Employee>(employeeService.getEmployee(id), HttpStatus.OK);
     }
 
     @PostMapping("/employees")
-    public Employee saveEmployee(@Valid @RequestBody Employee employee) {
-        return employeeService.saveEmployee(employee);
+    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
+        return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
     }
 
     @PutMapping("/employees/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
         System.out.println("Updating the employee data for the id " + id);
         employee.setId(Math.toIntExact(id));
-        return employeeService.updateEmployee(employee);
+        return new ResponseEntity<Employee>(employeeService.updateEmployee(employee), HttpStatus.OK);
     }
 
     @DeleteMapping("/employees")
-    public void deleteEmployee(@RequestParam("id") Long id) {
-        System.out.println("Employee deleted by id " + id);
+    public ResponseEntity<HttpStatus> deleteEmployee(@RequestParam("id") Long id) {
         employeeService.deleteEmployee(id);
+        return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 }

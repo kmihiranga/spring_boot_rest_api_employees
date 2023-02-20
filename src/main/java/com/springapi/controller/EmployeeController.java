@@ -1,6 +1,9 @@
 package com.springapi.controller;
 
+import com.springapi.model.Department;
 import com.springapi.model.Employee;
+import com.springapi.request.EmployeeRequest;
+import com.springapi.service.DepartmentServiceImpl;
 import com.springapi.service.EmployeeServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeServiceImpl employeeService;
+
+    @Autowired
+    private DepartmentServiceImpl departmentService;
 
     // read property names inside application.properties file
 //    @Value("${app.name}")
@@ -39,8 +45,18 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
-        return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
+    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
+        Department department = new Department();
+        department.setDepartmentName(employeeRequest.getDepartment());
+
+        department = departmentService.saveDepartment(department);
+
+        Employee employee = new Employee(employeeRequest);
+        employee.setDepartment(department);
+
+        employee = employeeService.saveEmployee(employee);
+
+        return new ResponseEntity<Employee>(employee, HttpStatus.CREATED);
     }
 
     @PutMapping("/employees/{id}")

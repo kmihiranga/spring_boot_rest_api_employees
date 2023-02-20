@@ -1,5 +1,6 @@
 package com.springapi.model;
 
+import com.springapi.request.EmployeeRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -52,4 +53,11 @@ public class Employee {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
+
+    public Employee(EmployeeRequest employeeRequest) {
+        this.name = employeeRequest.getName();
+        this.email = employeeRequest.getEmail();
+        this.location = employeeRequest.getLocation();
+        this.age = employeeRequest.getAge();
+    }
 }

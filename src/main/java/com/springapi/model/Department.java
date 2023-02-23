@@ -34,5 +34,9 @@ public class Department {
     private Date updatedAt;
 
     @OneToOne(mappedBy = "department")
-    private Employee employee;
+    private Employee employees;
+
+//    @OneToOne(mappedBy = "department")
+//    @JoinColumn(name = "department_id")
+//    private Employee employee;
 }

@@ -1,6 +1,7 @@
 package com.springapi.service;
 
 import com.springapi.model.Department;
+import com.springapi.model.Employee;
 
 import java.util.List;
 

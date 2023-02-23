@@ -96,4 +96,9 @@ public class EmployeeController {
     public ResponseEntity<String> deleteEmployeeByName(@PathVariable String name) {
         return new ResponseEntity<String>(employeeService.deleteByEmployeeName(name) + " of records deleted.", HttpStatus.OK);
     }
+
+    @GetMapping("employees/filter/{department}")
+    public ResponseEntity<List<Employee>> getEmployeeByDepartmentName(@PathVariable String department) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployeeByDepartmentName(department), HttpStatus.OK);
+    }
 }

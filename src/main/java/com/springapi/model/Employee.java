@@ -50,8 +50,8 @@ public class Employee {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @JoinColumn(name = "department_id", referencedColumnName = "id", nullable = false)
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 
     public Employee(EmployeeRequest employeeRequest) {
